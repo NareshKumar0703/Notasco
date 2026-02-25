@@ -63,7 +63,7 @@ const ActivityIcon = ({ type }) => {
 }
 
 const Dashboard = () => {
-    const { user } = useAuth()
+    // const { user } = useAuth()
     const [stats, setStats] = useState(null)
     const [activity, setActivity] = useState([])
     const [loading, setLoading] = useState(true)
