@@ -15,35 +15,35 @@ import Loader from '../../components/common/Loader'
 import Button from '../../components/common/Button'
 
 // ---------- Dummy data (used when API is not available) ----------
-const DUMMY_POSTS = [
-    {
-        _id: '1',
-        author: { name: 'Alice Chen', avatar: null },
-        content: 'Just shipped a new feature! 🚀 The new dashboard is live. Check it out and let me know what you think.',
-        likes: 42,
-        comments: 8,
-        createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 min ago
-        liked: false,
-    },
-    {
-        _id: '2',
-        author: { name: 'Bob Martinez', avatar: null },
-        content: 'Working on some exciting open-source projects this weekend. React + Vite is such a joy to work with. Anyone else building something cool?',
-        likes: 27,
-        comments: 14,
-        createdAt: new Date(Date.now() - 1000 * 60 * 90).toISOString(), // 90 min ago
-        liked: true,
-    },
-    {
-        _id: '3',
-        author: { name: 'Sara Kim', avatar: null },
-        content: 'Reminder: good code is not just about functionality — it\'s about readability, maintainability, and empathy for the next developer. 💡',
-        likes: 89,
-        comments: 23,
-        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(), // 3 hrs ago
-        liked: false,
-    },
-]
+// const DUMMY_POSTS = [
+//     {
+//         _id: '1',
+//         author: { name: 'Alice Chen', avatar: null },
+//         content: 'Just shipped a new feature! 🚀 The new dashboard is live. Check it out and let me know what you think.',
+//         likes: 42,
+//         comments: 8,
+//         createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 min ago
+//         liked: false,
+//     },
+//     {
+//         _id: '2',
+//         author: { name: 'Bob Martinez', avatar: null },
+//         content: 'Working on some exciting open-source projects this weekend. React + Vite is such a joy to work with. Anyone else building something cool?',
+//         likes: 27,
+//         comments: 14,
+//         createdAt: new Date(Date.now() - 1000 * 60 * 90).toISOString(), // 90 min ago
+//         liked: true,
+//     },
+//     {
+//         _id: '3',
+//         author: { name: 'Sara Kim', avatar: null },
+//         content: 'Reminder: good code is not just about functionality — it\'s about readability, maintainability, and empathy for the next developer. 💡',
+//         likes: 89,
+//         comments: 23,
+//         createdAt: new Date(Date.now() - 1000 * 60 * 60 * 3).toISOString(), // 3 hrs ago
+//         liked: false,
+//     },
+// ]
 
 // ---------- Time ago helper ----------
 const timeAgo = (dateStr) => {
@@ -62,10 +62,10 @@ const PostCard = ({ post, onLike }) => {
             {/* Author row */}
             <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
-                    {post.author.name[0]}
+                    {post.author?.[0]}
                 </div>
                 <div>
-                    <p className="text-sm font-semibold text-[var(--color-text)]">{post.author.name}</p>
+                    <p className="text-sm font-semibold text-[var(--color-text)]">{post.author}</p>
                     <p className="text-xs text-[var(--color-text-muted)]">{timeAgo(post.createdAt)}</p>
                 </div>
                 {/* More options */}
@@ -172,20 +172,26 @@ const Home = () => {
 
     // Fetch feed on mount
     useEffect(() => {
-        const fetchFeed = async () => {
+        const fetchPosts = async () => {
             try {
-                // API call: GET /posts/feed
-                const res = await api.get(POST_ROUTES.GET_FEED)
-                setPosts(res.posts || [])
+                // API call: GET /posts
+                const res = await api.get(POST_ROUTES.GET_ALL);
+                // Handle both array and object response
+                let postsArr = [];
+                if (Array.isArray(res)) {
+                    postsArr = res;
+                } else if (res && Array.isArray(res.data)) {
+                    postsArr = res.data;
+                }
+                setPosts(postsArr);
             } catch {
-                // Use dummy data when API is unavailable
-                setPosts(DUMMY_POSTS)
+                setPosts([]);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
-        fetchFeed()
-    }, [])
+        };
+        fetchPosts();
+    }, []);
 
     const handleLike = async (postId) => {
         // Optimistic update

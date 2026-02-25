@@ -72,10 +72,10 @@ const Dashboard = () => {
         const fetchDashboard = async () => {
             try {
                 // Example API calls — replace with your actual endpoints
-                const [statsRes, activityRes] = await Promise.all([
-                    api.get(`/users/${user?._id}/stats`),
-                    api.get('/notifications'),
-                ])
+                // const [statsRes, activityRes] = await Promise.all([
+                //     api.get(`/users/${user?._id}/stats`),
+                //     api.get('/notifications'),
+                // ])
                 setStats(statsRes)
                 setActivity(activityRes.items || [])
             } catch {

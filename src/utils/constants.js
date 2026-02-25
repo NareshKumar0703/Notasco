@@ -45,7 +45,7 @@ export const NOTIFICATION_ROUTES = {
 export const APP_CONFIG = {
     APP_NAME: import.meta.env.VITE_APP_NAME || 'Noto',
     POSTS_PER_PAGE: 10,
-    TOKEN_KEY: 'access_token',   // localStorage key for JWT
+    TOKEN_KEY: 'token',   // localStorage key for JWT
     USER_KEY: 'user',          // localStorage key for user data
 }
 

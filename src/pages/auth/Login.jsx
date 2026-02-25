@@ -60,7 +60,7 @@ const Login = () => {
 
     if (result.success) {
       addNotification({ type: "success", message: "Welcome back! 👋" });
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } else {
       addNotification({
         type: "error",
