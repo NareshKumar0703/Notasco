@@ -20,7 +20,7 @@ export const USER_ROUTES = {
     UNFOLLOW: (id) => `/users/${id}/unfollow`,
     FOLLOWERS: (id) => `/users/${id}/followers`,
     FOLLOWING: (id) => `/users/${id}/following`,
-    SEARCH: '/users/search',
+    SEARCH: '/users',
 }
 
 export const POST_ROUTES = {

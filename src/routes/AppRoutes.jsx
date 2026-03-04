@@ -17,6 +17,7 @@ import Register from '../pages/auth/Register'
 import Home from '../pages/home/Home'
 import Dashboard from '../pages/dashboard/Dashboard'
 import Profile from '../pages/profile/Profile'
+import Friends from '../pages/friends/Friends'
 
 // ---------- PrivateRoute Guard ----------
 // Wraps protected routes — redirects to /login if not authenticated
@@ -66,6 +67,7 @@ const AppRoutes = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/friends" element={<Friends />} />
                 </Route>
 
                 {/* Catch-all: redirect to home */}
